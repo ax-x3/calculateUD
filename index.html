@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDGC V2</title>
+    <link href="favicon.png" rel="icon">
+    <link href="styles.css" rel="stylesheet">
+    <script src="script.js"></script>
+</head>
+<body>
+    <div id="header">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div id="headerContent">
+            <span><h1>Ultimate Driving Grind Calculator 2.0</h1></span>
+            <p id="headerSmallText">UDGC2 is the second iteration of a fan-made tool for calculating accurate mileage, Credits, and Ranks in the Ultimate Driving Universe.</p>
+            <p id="headerSmallText">If you're also a nerd and interested in the math behind UD Ranks, consider scrolling down to the PAQ or checking out <a href="https://www.desmos.com/calculator/kquxttrwtq">this Desmos project</a>.</p>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div id="navbar">
+            <div id="navbarTabSpacer"></div>
+            <div class="navbarTabA" onclick="navigate('credits');" id="credits">Credits</div>
+            <div class="navbarTab" onclick="navigate('ranks');" id="ranks">Ranks</div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div id="mainBody">
+        <div id="creditsI" style="display: block;">
+            <h2>How long until I reach my Credit goal?</h2>
+            <form>
+                <label for="cIend">How many Credits are you trying to accumulate?</label>
+                <br>
+                <input id="cIend" type="number" autocomplete="off" placeholder="Ex. 100000">
+                <br><br>
+                <label for="cIstart">How many Credits do you already have?</label>
+                <br>
+                <input id="cIstart" type="number" autocomplete="off">
+                <br><br>
+                <label for="cIspeed">What is your vehicle's top speed?</label>
+                <br>
+                <input id="cIspeed" type="number" autocomplete="off">
+                <select id="cIunit">
+                    <option value="mph">mph</option>
+                    <option value="kmph">kmph</option>
+                </select>
+                <br><br>
+                <label for="cIsalary">At top speed, how many Credits do you earn each payment? (every ~4 seconds)</label>
+                <br>
+                <input id="cIsalary" type="number" autocomplete="off">
+                <br><br>
+                <input type="button" onclick="calculate('cI');" value="Calculate!">
+            </form>
+            <p class="result" id="cIresult">Results will appear here.</p>
+            <label>Remember that results are estimations and will vary from reality depending on your playstyle.</label>
+        </div>
+
+        <div id="ranksI" style="display: none;">
+            <h2>How long until I reach my Rank goal?</h2>
+            <form>
+                <label for="rIend">What Rank are you trying to reach?</label>
+                <br>
+                <input id="rIend" type="number" autocomplete="off" placeholder="Ex. 240">
+                <br><br>
+                <label for="rIstart">What Rank are you currently?</label>
+                <br>
+                <input id="rIstart" type="number" autocomplete="off">
+                <br><br>
+                <label for="rIextra">How much XP is left on your current Rank?</label>
+                <br>
+                <input id="rIextra" type="number" autocomplete="off" placeholder="Ex. 100000">
+                <br><br>
+                <label for="rIspeed">What is your vehicle's top speed?</label>
+                <br>
+                <input id="rIspeed" type="number" autocomplete="off">
+                <select id="rIunit">
+                    <option value="mph">mph</option>
+                    <option value="kmph">kmph</option>
+                </select>
+                <br><br>
+                <label for="rIsalary">How much XP do you earn each mile?</label>
+                <br>
+                <input id="rIsalary" type="number" autocomplete="off">
+                <br><br>
+                <input type="button" onclick="calculate('rI');" value="Calculate!">
+            </form>
+            <p class="result" id="rIresult">Results will appear here.</p>
+            <label>Remember that results are estimations and will vary from reality depending on your playstyle.</label>
+        </div>
+        <br>
+        <br><br><br><br>
+        <h2>PAQ (possibly asked questions)</h2>
+        <br>
+        <h3>Q. Who created this site?</h3>
+        This site was created by me! I'm <a href="https://amethystx.pages.dev">amethyst</a>, AKA <a href="https://www.roblox.com/users/136983129/profile">14563zincjr</a> on Roblox. This site is being deployed using CloudFlare's Pages.
+        <br><br><br><br>
+        <h3>Q. What is Ultimate Driving (UD)?</h3>
+        Get out.
+        <br><br><br><br>
+        <h3>Q. Where is the original UDGC?</h3>
+        UDGC1 is still available (though not of any usefulness after the credit system update) <a href="https://scratch.mit.edu/projects/717834360/">here on Scratch</a>.
+        <br><br><br><br>
+        <h3>Q. How are Credits calculated?</h3>
+        Using UD's new Credit award system, payments earned from driving are set to be paid at a fixed rate. Specifically, a Credits payment is recieved every 4 seconds when driving normally. Thus, by subtracting <span class="mathRoman">creditsStart</span> from <span class="mathRoman">creditsGoal</span>, dividing by the <span class="mathRoman">creditsSalary</span>, and multiplying the result by <span class="mathRoman">4</span>, we are left with a time in seconds representing the total driving time required to reach the goal. Dividing by <span class="mathRoman">3600</span> converts to <span class="mathRoman">hours</span> , which is the unit produced by this calculator.
+        <br>
+        <img class="mathText" src="https://latex.codecogs.com/png.image?\LARGE&space;\dpi{110}\bg{white}\textbf{hours}=\frac{4\left(\textbf{cStart}-\textbf{cGoal}\right)}{\textbf{cSalary}\times&space;3600}" title="\textbf{hours}=\frac{4\left(\textbf{cStart}-\textbf{cGoal}\right)}{\textbf{cSalary}\times 3600}" />
+        <br>
+        Next, to calculate the equivalent mileage, we simply multiply the total hours by the top speed of the vehicle. Importantly, if kilometers are preferred, it must first be converted to miles by dividing by <span class="mathRoman">1.609</span>.
+        <br>
+        <img class="mathText" src="https://latex.codecogs.com/png.image?\LARGE&space;\dpi{110}\bg{white}\textbf{miles}=\textbf{hours}\times\textbf{mph}" title="\textbf{miles}=\textbf{hours}\times\textbf{mph}" />
+        OR
+        <img class="mathText" src="https://latex.codecogs.com/png.image?\LARGE&space;\dpi{110}\bg{white}\textbf{miles}=\textbf{hours}\times\left(\frac{\textbf{kmph}}{1.609}\right)" title="\textbf{miles}=\textbf{hours}\times\left(\frac{\textbf{kmph}}{1.609}\right)" />
+        <br><br><br><br>
+        <h3>Q. How are Ranks calculated?</h3>
+        Ranks happen to be much more complicated than Credits. While the distance required to earn a certain amount of Credits is always the same—as credit earning is linear, each Rank levelup requires more XP than the previous. This scaling is commonplace in games to create a difficulty "curve" that makes the game more challenging over time as to not become boring. However, this curve brings about many challenges when trying to reverse-engineer and simulate the Rank system, but with some time, it can still be done.
+        <br><br>
+        Ultimate Driving uses a power function of degree <span class="mathRoman">3</span>. Note that the produced graph has had its window resized to show the curve because of how much XP is required for higher ranks. 
+        <br>
+        <img class="mathText" src="https://latex.codecogs.com/png.image?\LARGE&space;\dpi{110}\bg{white}\textbf{xpRequired}\left(\textbf{rank}\right)=\frac{\textbf{rank}^{3}}{10}&plus;1000" title="\textbf{xpRequired}\left(\textbf{rank}\right)=\frac{\textbf{rank}^{3}}{10}+1000" />
+        <img class="mathText" width="50%" src="desmos.png" alt="A screenshot of a graph curving up with XP labels up to Rank 800.">
+        <br>
+        This graph can be used to find the <span class="mathRoman">xpRequired</span> for a single rank, but by using summations, we can also find the <span class="mathRoman">xpRequired</span> for a series of Ranks. First, however, apply a <span class="mathRoman">floor()</span> to the graph to ensure the correct values for XP per Rank are used.
+        <br>
+        <img class="mathText" src="https://latex.codecogs.com/png.image?\LARGE&space;\dpi{110}\bg{white}\textbf{xpRequired}=\sum_{n=\textbf{rStart}}^{\textbf{rGoal}}\mathit{floor}\left(\frac{n^{3}}{10}&plus;1000\right)" title="\textbf{xpRequired}=\sum_{n=\textbf{rStart}}^{\textbf{rGoal}}\mathit{floor}\left(\frac{n^{3}}{10}+1000\right)" />
+        <br>
+        If the <span class="mathRoman">xpRemaining</span> in the current Rank is provided, the first item in the summation can be replaced with the provided value for a more accurate result. Otherwise, the current Rank is assumed to have all of its XP remaining.
+        <br><br>
+        Once the <span class="mathRoman">xpRequired</span> is calculated, divide by <span class="mathRoman">xpSalary</span> to find the total number of miles remaining. Then, divide by the top speed to estiamte how many hours of driving remain. Again, convert kilometers to miles if necessary.
+        <br><br>
+        While working on the Ranks calculations, I first tried to run some data I collected on ranks through several regressions. Unfortunately, either out of error or my stupidity, none of them produced a result that I was satisfied with. I ended up fitting the curve completely manually by brute-forcing different values in Desmos before I found the exact graph I was looking for.
+        <br><br><br><br>
+    </div>
+    <div id="footer">
+        <h4>UDGC2</h4>
+        Functional as of UD 5.4.1.3-w1 (4 Feb 2024)
+        <br><br>
+        This web tool was designed and built by amethyst.
+        <br><br>
+        <a href="https://discordapp.com/users/802178124342493224">Discord</a> | <a href="https://www.roblox.com/users/136983129/profile">Roblox</a> | <a href="https://github.com/ax-x3">Github</a> | <a href="https://amethystx.pages.dev/">Web</a> | <a href="https://scratch.mit.edu/users/aivi_/">Scratch</a>
+        <br><br>
+    </div>
+    
+</body>
+</html>
